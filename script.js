@@ -49,10 +49,9 @@ function renderTasks(){
     return;
     taskList.appendChild(taskElement);
 }
-//get user input
+//add event listener to addButton
+addTaskButton.addEventListener(onclick,function(){
 
-// validate the entered input
-function validateInput(){
     const taskInput=document.getElementById("taskInput");
     const error=document.getElementById("error");
 
@@ -69,7 +68,8 @@ taskArray.push(newTask);
 updateTasksInLocalStorage();
 taskInput.value="";
 renderTasks();
-}
+});
+renderTasks();
 //put input value in array
 function storeTaskArray(){
     taskArray.push(validateInput());
