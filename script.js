@@ -53,16 +53,22 @@ function renderTasks(){
 
 // validate the entered input
 function validateInput(){
-    const taskInput=document.getElementById("inputBox");
+    const taskInput=document.getElementById("taskInput");
     const error=document.getElementById("error");
 
-    let userInput=taskInput.value;
-    if(userInput==Number|| userInput==""){
-       error.textContent="Please Enter valid colour name";
+    let taskText=taskInput.value;
+    if(taskText==Number|| taskText==""){
+       error.textContent="Please Enter valid input";
     return;
 } else{
-    return userInput;
+    return taskText;
 }
+
+const newTask=createTaskElement(taskText);
+taskArray.push(newTask);
+updateTasksInLocalStorage();
+taskInput.value="";
+renderTasks();
 }
 //put input value in array
 function storeTaskArray(){
