@@ -4,16 +4,17 @@ let tasks;
  const addTaskButton=document.getElementById("addTaskButton");
  const taskList=document.getElementById("taskList");
  const taskInput=document.getElementById("taskInput");
+ const error=document.getElementById("error");
 
 function getTaskFromLocalStorage(){
     if(taskArray.length==0){
         return [];
-    }
-    return JSON.parse(taskArray.pop);
-}
+    } else{
+    return JSON.parse(localStorage.getItem(taskArray));
+}}
 function updateTasksInLocalStorage(){
     
-    localStorage.setItem(tasks,JSON.stringify(taskArray));
+    localStorage.setItem("taskArray",JSON.stringify(taskArray));
 
 }
 function createTask(taskText){
@@ -23,7 +24,7 @@ function deleteTask(index){
 taskArray.splice(index,1);
  updateTasksInLocalStorage();
 }
-function createTaskElement(taskObj) {
+function createTaskElement(taskObj,index) {
     const taskItem = document.createElement("li");
     taskItem.classList.add("taskItem");
   
@@ -59,17 +60,18 @@ function renderTasks(){
     const taskInput=document.getElementById("taskInput");
     taskList.innerHTML="";
     for(let i=0;i<taskArray.length;i++){
-        createTaskElement(taskArray[i]);
+        const taskElement=createTaskElement(taskArray[i],i);
+        taskList.appendChild(taskElement);
     }
     
    //taskList.appendChild(taskElement);
 }
 //add event listener to addButton
 //
-//addTaskButton.addEventListener(onclick,function(){
+addTaskButton.addEventListener("click",function(){
     function addFunction(){
     const taskInput=document.getElementById("taskInput");
-    const error=document.getElementById("error");
+    
 
     let taskText=taskInput.value;
     if(taskText===Number|| taskText===""){
@@ -82,11 +84,47 @@ updateTasksInLocalStorage();
 taskInput.value="";
 renderTasks();
 }
-renderTasks();
+renderTasks();});
 //put input value in array
 function storeTaskArray(){
     taskArray.push(validateInput());
 }
+addTaskButton.addEventListener("click", function() {
+    let removedWhiteSpace = taskInput.value.trim();
+
+    if (removedWhiteSpace === "") {
+        error.textContent = "Please enter a new task."
+    } else {
+        error.textContent = ""        
+        const newTask = createTask(removedWhiteSpace);
+        taskArray.push(newTask);
+        updateTasksInLocalStorage();     
+        taskInput.value = "";
+        renderTasks();
+    }
+    inputEl.focus()
+})
+
+taskInput.addEventListener("keypress", function(event) {
+
+    if (event.key === "Enter") {
+        let removedWhiteSpace = taskInput.value.trim()
+
+        if (removedWhiteSpace === "") {
+            error.textContent = "Please enter a new task."
+        } else {
+            // event.preventDefault()
+            error.textContent = ""
+            const newTask = createTask(removedWhiteSpace)
+            taskArray.push(newTask)
+            updateTasksInLocalStorage()
+            taskInput.value = ""
+            renderTasks()
+        }
+    }
+    taskInput.focus();
+})
+
 /*
 // show entered value as list after click on add button
 function addValueToList(){
