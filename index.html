@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Local Storage</title>
-    <script src="script1.js"></script>
+    <title>Daily Planner</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-    <input type="text" id="taskInput" placeholder="Please Enter Colour" />
-    <button id="addTaskButton" onclick="addText()">Add</button>
-    <ul id="taskList">
-      <li id="listElements"></li>
-    </ul>
-    <br />
-    <p id="error" style="color: red; font-size: xx-large"></p>
+    <h1>Daily Planner</h1>
+    <input id="taskInput" type="text" placeholder="Add a new task" />
+    <button id="addTaskButton" onclick="addFunction()">Add Task</button>
+    <ul id="taskList"></ul>
+    <div>
+      <p id="error"></p>
+    </div>
   </body>
+  <div>
+    <script src="script.js"></script>
+  </div>
 </html>

@@ -1,14 +1,27 @@
 
 let taskArray=[];
+let tasks;
  const addTaskButton=document.getElementById("addTaskButton");
  const taskList=document.getElementById("taskList");
  const taskInput=document.getElementById("taskInput");
 
 function getTaskFromLocalStorage(){
-    if(taskArray.pop==null){
+    if(taskArray.length==0){
         return [];
     }
     return JSON.parse(taskArray.pop);
+}
+function updateTasksInLocalStorage(){
+    
+    localStorage.setItem(tasks,JSON.stringify(taskArray));
+
+}
+function createTask(taskText){
+    return{text:taskText,completed:false};
+}
+function deleteTask(index){
+taskArray.splice(index,1);
+ updateTasksInLocalStorage();
 }
 function createTaskElement(taskObj) {
     const taskItem = document.createElement("li");
@@ -24,7 +37,7 @@ function createTaskElement(taskObj) {
         updateTasksInLocalStorage();
     });
     const taskTextElement = document.createElement("span");
-    taskTextElement.classList.add("taskText");
+    taskTextElement.classList.add("taskInput");
     taskTextElement.textContent = taskObj.text;
     taskTextElement.classList.toggle("completed", taskObj.completed);
   
@@ -42,38 +55,39 @@ function createTaskElement(taskObj) {
     return taskItem;
 }
 function renderTasks(){
+    const taskList=document.getElementById("taskList");
+    const taskInput=document.getElementById("taskInput");
     taskList.innerHTML="";
     for(let i=0;i<taskArray.length;i++){
         createTaskElement(taskArray[i]);
     }
-    return;
-    taskList.appendChild(taskElement);
+    
+   //taskList.appendChild(taskElement);
 }
 //add event listener to addButton
-addTaskButton.addEventListener(onclick,function(){
-
+//
+//addTaskButton.addEventListener(onclick,function(){
+    function addFunction(){
     const taskInput=document.getElementById("taskInput");
     const error=document.getElementById("error");
 
     let taskText=taskInput.value;
-    if(taskText==Number|| taskText==""){
+    if(taskText===Number|| taskText===""){
        error.textContent="Please Enter valid input";
     return;
-} else{
-    return taskText;
-}
-
+} 
 const newTask=createTaskElement(taskText);
 taskArray.push(newTask);
 updateTasksInLocalStorage();
 taskInput.value="";
 renderTasks();
-});
+}
 renderTasks();
 //put input value in array
 function storeTaskArray(){
     taskArray.push(validateInput());
 }
+/*
 // show entered value as list after click on add button
 function addValueToList(){
     
@@ -95,4 +109,4 @@ function addValueToList(){
 
 function getTasksFromLocalStorage(){
 
-}
+}*/
